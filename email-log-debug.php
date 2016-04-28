@@ -1,47 +1,51 @@
 <?php
 
+namespace EmailLogDebug;
+
+use EmailLogDebug\Includes\UpdateTable;
+
 /**
-  Plugin Name: Email Log - Gravity Forms
+  Plugin Name: Email Log - Debug Addon
   Description: An add-on Plugin to Email Log Plugin, that allows you to see the SMTP response
-  Version: 0.2
+  Version: 0.1
   Author: Pionect
   Author URI: http://www.pionect.nl
   Text Domain: email-log
  */
 
-if ( ! defined( 'EMAIL_LOG_GRAVITYFORMS_PLUGIN_FILE' ) ) {
-    define( 'EMAIL_LOG_GRAVITYFORMS_PLUGIN_FILE', __FILE__ );
+if ( ! defined( 'EMAIL_LOG_DEBUG_PLUGIN_FILE' ) ) {
+    define( 'EMAIL_LOG_DEBUG_PLUGIN_FILE', __FILE__ );
 }
 
-class Email_Log_Gravityforms {
+class Plugin {
     
-    const TABLE_NAME               = 'email_log';          /* Database table name */
-    const VERSION                  = '0.2';
-    // JS Stuff
-    const JS_HANDLE                = 'email-log-gravityforms';
+    const VERSION                  = '0.1';
+    const JS_HANDLE                = 'email-log-debug';
 
     function __construct() {
-        
-        // handle update email_log table update
-        require_once dirname( __FILE__ ) . '/include/update.php';
-        
-        add_action('init', array($this,'init'), 100);
+        include 'Includes/AdminScreen.php';
+        include 'Includes/CaptureResponse.php';
+        new Includes\AdminScreen();
+        new Includes\CaptureResponse();
     }
-    
-    function init(){
-        if (is_plugin_active('email-log/email-log.php') == FALSE) {
-            // show error that this plugins needs 'Email Log' 
-            return;
-        }
-        
-        include 'include/email-log-gf-admin-screen.php';
-        include 'include/email-log-gf-smtp-response.php';
-        
-        new Email_Log_Gf_Smtp_Response();
-        new Email_Log_Gf_Admin_Screen();
-        
+
+    function install()
+    {
+        // handle update email_log table update
+        include 'Includes/UpdateTable.php';
+        UpdateTable::run();
     }
     
 }
 
-new Email_Log_Gravityforms();
+function Init_Email_Log_Debug() {
+    require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+    if ( is_plugin_active( 'email-log/email-log.php' ) ) {
+        global $EmailLogDebug;
+        
+        $EmailLogDebug = new Plugin();
+    }
+}
+add_action( 'init', 'Init_Email_Log_Debug', 100);
+
+register_activation_hook( __FILE__, array( 'Email_Log_Debug', 'install' ) );

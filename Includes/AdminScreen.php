@@ -1,6 +1,8 @@
 <?php
 
-class Email_Log_Gf_Admin_Screen {
+Namespace EmailLogDebug\Includes;
+
+class AdminScreen {
 
     function __construct() {
         // column hooks
@@ -18,7 +20,7 @@ class Email_Log_Gf_Admin_Screen {
      * @since 0.2
      */
     function include_js() {
-        wp_enqueue_script(EmailLog::JS_HANDLE, plugins_url('/js/email-log-grafityforms.js', EMAIL_LOG_GRAVITYFORMS_PLUGIN_FILE), array('jquery'), EmailLog::VERSION, TRUE);
+        wp_enqueue_script(EmailLog::JS_HANDLE, plugins_url('/js/email-log-debug.js', EMAIL_LOG_DEBUG_PLUGIN_FILE), array('jquery'), EmailLog::VERSION, TRUE);
     }
 
     /**
@@ -51,10 +53,10 @@ class Email_Log_Gf_Admin_Screen {
 
         $email_id = $_POST['email_id'];
 
-        $table_name = $wpdb->prefix . Email_Log_Gravityforms::TABLE_NAME;
+        $table_name = $wpdb->prefix . EmailLog::TABLE_NAME;
 
         // Select the matching item from the database
-        $query   = $wpdb->prepare("SELECT smtp_response FROM " . $table_name . " WHERE id = %d", $email_id);
+        $query   = $wpdb->prepare("SELECT `smtp_response` FROM `$table_name` WHERE id = %d", $email_id);
         $content = $wpdb->get_var($query);
 
         // Write the full response to the window
