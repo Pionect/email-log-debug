@@ -82,12 +82,18 @@ class AdminScreen {
      */
     function ajax_smtp_response_callback()
     {
-        $this->get_db_value('smtp_response');
+        $content = $this->get_db_value('smtp_response');
+
+        echo ($content =="" ? 'N\A' : '<pre>'.htmlentities($content).'</pre>');
+        die(); // this is required to return a proper result
+
     }
 
     function ajax_phpmailer_callback()
     {
-        $this->get_db_value('phpmailer');
+        $content = $this->get_db_value('phpmailer');
+        echo '<pre>' . ($content =="" ? 'N\A' : $content). '</pre>';
+        die(); // this is required to return a proper result
     }
 
     private function get_db_value($name){
@@ -99,12 +105,7 @@ class AdminScreen {
 
         // Select the matching item from the database
         $query   = $wpdb->prepare("SELECT `$name` FROM `$table_name` WHERE id = %d", $email_id);
-        $content = $wpdb->get_var($query);
-
-        // Write the full response to the window
-        echo '<pre>' . ($content =="" ? 'N\A' : $content). '</pre>';
-
-        die(); // this is required to return a proper result
+        return $wpdb->get_var($query);
     }
 
 }
