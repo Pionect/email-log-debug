@@ -13,7 +13,7 @@ class CaptureResponse {
         if ( !is_object( $phpmailer ) || $phpmailer instanceof PHPMailer == false ) {
             require_once ABSPATH . WPINC . '/class-phpmailer.php';
             require_once ABSPATH . WPINC . '/class-smtp.php';
-            $phpmailer = new PHPMailer( true );
+            $phpmailer = new \PHPMailer( true );
         }
 
         $this->phpmailer = $phpmailer;
@@ -34,7 +34,7 @@ class CaptureResponse {
             return;
         }
         
-        $table_name = $wpdb->prefix . EmailLog::TABLE_NAME;
+        $table_name = $wpdb->prefix . \EmailLog::TABLE_NAME;
         $sql = "UPDATE `" . $table_name . "` SET `smtp_response` = '". mysqli_real_escape_string($string) ."'"
             . "WHERE `headers` LIKE '%" . $headers['PNCT-TOKEN'] . "%' ;";
 

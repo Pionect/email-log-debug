@@ -28,7 +28,7 @@ class UpdateTable {
     public static function run() {
 
         global $wpdb;
-        $table_name = $wpdb->prefix . EmailLog::TABLE_NAME;
+        $table_name = $wpdb->prefix . \EmailLog::TABLE_NAME;
 
         $wpdb->get_results("SELECT * 
                             FROM information_schema.COLUMNS 

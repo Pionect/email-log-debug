@@ -1,17 +1,16 @@
 <?php
+/**
+Plugin Name: Email Log - Debug Addon
+Description: An add-on Plugin to Email Log Plugin, that allows you to see the SMTP response
+Version: 0.1
+Author: Pionect
+Author URI: http://www.pionect.nl
+Text Domain: email-log
+ */
 
 namespace EmailLogDebug;
 
 use EmailLogDebug\Includes\UpdateTable;
-
-/**
-  Plugin Name: Email Log - Debug Addon
-  Description: An add-on Plugin to Email Log Plugin, that allows you to see the SMTP response
-  Version: 0.1
-  Author: Pionect
-  Author URI: http://www.pionect.nl
-  Text Domain: email-log
- */
 
 if ( ! defined( 'EMAIL_LOG_DEBUG_PLUGIN_FILE' ) ) {
     define( 'EMAIL_LOG_DEBUG_PLUGIN_FILE', __FILE__ );
@@ -46,6 +45,6 @@ function Init_Email_Log_Debug() {
         $EmailLogDebug = new Plugin();
     }
 }
-add_action( 'init', 'Init_Email_Log_Debug', 100);
+add_action( 'init', 'EmailLogDebug\Init_Email_Log_Debug', 100);
 
-register_activation_hook( __FILE__, array( 'Email_Log_Debug', 'install' ) );
+register_activation_hook( __FILE__, array( 'EmailLogDebug\Email_Log_Debug', 'install' ) );
