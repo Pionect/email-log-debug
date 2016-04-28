@@ -18,13 +18,20 @@ if ( ! defined( 'EMAIL_LOG_DEBUG_PLUGIN_FILE' ) ) {
 
 class Plugin {
     
-    const VERSION                  = '0.1';
-    const JS_HANDLE                = 'email-log-debug';
+    const VERSION       = '0.1';
+    const JS_HANDLE     = 'email-log-debug';
+    const TABLE_NAME    = \EmailLog::TABLE_NAME;
 
-    function __construct() {
-        include 'Includes/AdminScreen.php';
+    function admin() {
+        require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+        if ( is_plugin_active( 'email-log/email-log.php' ) && is_admin() ) {
+            include 'Includes/AdminScreen.php';
+            new Includes\AdminScreen();
+        }
+    }
+
+    function init_capturing(){
         include 'Includes/CaptureResponse.php';
-        new Includes\AdminScreen();
         new Includes\CaptureResponse();
     }
 
@@ -37,14 +44,6 @@ class Plugin {
     
 }
 
-function Init_Email_Log_Debug() {
-    require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-    if ( is_plugin_active( 'email-log/email-log.php' ) ) {
-        global $EmailLogDebug;
-        
-        $EmailLogDebug = new Plugin();
-    }
-}
-add_action( 'init', 'EmailLogDebug\Init_Email_Log_Debug', 100);
-
-register_activation_hook( __FILE__, array( 'EmailLogDebug\Email_Log_Debug', 'install' ) );
+add_action( 'admin_init', array( 'EmailLogDebug\Plugin', 'admin' ), 100);
+add_action( 'plugins_loaded', array( 'EmailLogDebug\Plugin', 'init_capturing' ), 1);
+register_activation_hook( __FILE__, array( 'EmailLogDebug\Plugin', 'install' ) );
