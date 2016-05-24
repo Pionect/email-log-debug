@@ -14,8 +14,26 @@ For every logged email the SMTP response and PHPMailer object will be stored so 
 This plugin is an addon to the [Email Log](http://sudarmuthu.com/wordpress/email-log) WordPress Plugin.
 You need to have the Email Log Plugin installed and activated for this plugin to work.
 
+### Development
+
+The development of the Plugin happens over at [github](https://github.com/Pionect/email-log-debug). If you want to contribute to the Plugin, [fork the project at github](http://github.com/sudar/email-log) and send me a pull request.
+
+If you are not familiar with either git or Github then refer to this [guide to see how fork and send pull request](http://sudarmuthu.com/blog/contributing-to-project-hosted-in-github).
+
+
 ## Installation ##
 
 #### Normal WordPress installations
 
 Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page.
+
+## Screenshots ##
+
+![](assets/screenshot-1.png)
+This screenshot shows the action buttons added to a logged email
+
+![](assets/screenshot-2.png)
+This screenshot shows a modal with an example of STMP response
+
+![](assets/screenshot-3.png)
+This screenshot shows a modal with an example of a PHPMailer object
