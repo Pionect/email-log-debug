@@ -22,7 +22,7 @@ class Plugin {
     const JS_HANDLE     = 'email-log-debug';
     const TABLE_NAME    = \EmailLog::TABLE_NAME;
 
-    function admin() {
+    public static function admin() {
         require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
         if ( is_plugin_active( 'email-log/email-log.php' ) && is_admin() ) {
             include 'Includes/AdminScreen.php';
@@ -30,12 +30,12 @@ class Plugin {
         }
     }
 
-    function init_capturing(){
+    public static function init_capturing(){
         include 'Includes/CaptureResponse.php';
         new Includes\CaptureResponse();
     }
 
-    function install()
+    public static function install()
     {
         // handle update email_log table update
         include 'Includes/UpdateTable.php';
@@ -44,6 +44,6 @@ class Plugin {
     
 }
 
-add_action( 'admin_init', array( 'EmailLogDebug\Plugin', 'admin' ), 100);
-add_action( 'plugins_loaded', array( 'EmailLogDebug\Plugin', 'init_capturing' ), 1);
-register_activation_hook( __FILE__, array( 'EmailLogDebug\Plugin', 'install' ) );
+add_action( 'admin_init', array( \EmailLogDebug\Plugin::class, 'admin' ), 100);
+add_action( 'plugins_loaded', array( \EmailLogDebug\Plugin::class, 'init_capturing' ), 1);
+register_activation_hook( __FILE__, array( \EmailLogDebug\Plugin::class, 'install' ) );
